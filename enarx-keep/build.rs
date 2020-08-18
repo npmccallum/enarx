@@ -123,6 +123,24 @@ fn main() {
             .join(&std::env::var("PROFILE").unwrap())
             .join(&shim_name);
 
-        std::fs::rename(&shim_out_bin, &out_bin).expect("move failed");
+        match std::env::var("PROFILE").unwrap().as_str() {
+            "release" => {
+                let status = Command::new("strip")
+                    .arg("--strip-unneeded")
+                    .arg("-o")
+                    .arg(&out_bin)
+                    .arg(&shim_out_bin)
+                    .status();
+
+                match status {
+                    Ok(status) if status.success() => {}
+                    _ => {
+                        eprintln!("Failed to run strip");
+                        std::fs::rename(&shim_out_bin, &out_bin).expect("move failed")
+                    }
+                }
+            }
+            _ => std::fs::rename(&shim_out_bin, &out_bin).expect("move failed"),
+        }
     }
 }
