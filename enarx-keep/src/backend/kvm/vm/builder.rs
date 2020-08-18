@@ -11,11 +11,11 @@ use super::VirtualMachine;
 
 use crate::binary::{Component, Segment};
 
+use crate::backend::kvm::shim::BootInfo;
 use anyhow::Result;
 use bounds::Line;
 use kvm_ioctls::{Kvm, VmFd};
 use memory::Page;
-use shim_sev::BootInfo;
 use x86_64::structures::paging::page_table::{PageTable, PageTableFlags};
 use x86_64::{PhysAddr, VirtAddr};
 

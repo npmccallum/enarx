@@ -5,10 +5,10 @@ use super::VirtualMachine;
 
 use crate::backend::{Command, Thread};
 
+use crate::backend::kvm::shim::SYSCALL_TRIGGER_PORT;
 use anyhow::{anyhow, Result};
 use kvm_ioctls::{VcpuExit, VcpuFd};
 use memory::Page;
-use shim_sev::SYSCALL_TRIGGER_PORT;
 use x86_64::registers::control::{Cr0Flags, Cr4Flags};
 use x86_64::registers::model_specific::EferFlags;
 use x86_64::PhysAddr;

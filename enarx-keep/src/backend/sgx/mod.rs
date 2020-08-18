@@ -17,6 +17,7 @@ use std::arch::x86_64::__cpuid_count;
 use std::sync::{Arc, RwLock};
 
 mod data;
+mod shim;
 
 const SHIM: &[u8] = include_bytes!(concat!(env!("OUT_DIR"), "/bin/shim-sgx"));
 
@@ -71,7 +72,7 @@ impl crate::backend::Backend for Backend {
         let mut shim = Component::from_bytes(SHIM)?;
 
         // Calculate the memory layout for the enclave.
-        let layout = shim_sgx::Layout::calculate(shim.region(), code.region());
+        let layout = crate::backend::sgx::shim::Layout::calculate(shim.region(), code.region());
 
         // Relocate the shim binary.
         shim.entry += layout.shim.start;

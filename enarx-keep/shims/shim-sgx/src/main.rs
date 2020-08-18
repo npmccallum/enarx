@@ -74,5 +74,6 @@ mod entry;
 mod event;
 mod handler;
 mod heap;
+mod hostlib;
 
-use shim_sgx::Layout;
+use hostlib::Layout;

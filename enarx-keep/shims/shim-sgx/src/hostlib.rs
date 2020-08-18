@@ -1,27 +1,31 @@
 // SPDX-License-Identifier: Apache-2.0
 
-//! The common Layout for `enarx-keep-sgx` and `enarx-keep-sgx-shim`
-
-#![no_std]
-#![deny(clippy::all)]
-#![deny(missing_docs)]
+// The common Layout for `enarx-keep-sgx` and `enarx-keep-sgx-shim`
 
 use bounds::{Contains as _, Line, Span};
 
+#[allow(dead_code)]
 const PREFIX: usize = units::bytes![4; MiB];
+#[allow(dead_code)]
 const ALIGN: usize = units::bytes![2; MiB];
+#[allow(dead_code)]
 const STACK: usize = units::bytes![8; MiB];
+#[allow(dead_code)]
 const HEAP: usize = units::bytes![128; MiB];
+#[allow(dead_code)]
 const SIZE: usize = units::bytes![64; GiB];
 
+#[allow(dead_code)]
 const fn lower(value: usize, boundary: usize) -> usize {
     value / boundary * boundary
 }
 
+#[allow(dead_code)]
 const fn raise(value: usize, boundary: usize) -> usize {
     lower(value + boundary - 1, boundary)
 }
 
+#[allow(dead_code)]
 fn above(rel: impl Into<Line<usize>>, size: usize) -> Span<usize> {
     Span {
         start: raise(rel.into().end, ALIGN),
@@ -29,6 +33,7 @@ fn above(rel: impl Into<Line<usize>>, size: usize) -> Span<usize> {
     }
 }
 
+#[allow(dead_code)]
 fn below(rel: impl Into<Line<usize>>, size: usize) -> Span<usize> {
     Span {
         start: lower(rel.into().start - size, ALIGN),
@@ -61,6 +66,7 @@ pub struct Layout {
 
 impl Layout {
     /// Calculate the memory layout of the SGX keep
+    #[allow(dead_code)]
     pub fn calculate(shim: Line<usize>, code: Line<usize>) -> Self {
         assert_eq!(shim.start, 0);
 
